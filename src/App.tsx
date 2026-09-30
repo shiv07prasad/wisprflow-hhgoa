@@ -81,7 +81,20 @@ function App() {
           <nav aria-label="Steps" className="shrink-0 border-b border-slate-200 bg-white px-2 py-2.5">
             <ol className="grid grid-cols-6">
               {STEP_LABELS.map((label, i) => (
-                <li key={label}>
+                <li key={label} className="relative">
+                  {i > 0 && (
+                    // Connector from the previous bubble's centre to this one's (bubble centre sits 16px down).
+                    <div
+                      aria-hidden
+                      className="absolute top-[15px] right-[calc(50%+16px)] left-[calc(-50%+16px)] h-0.5 overflow-hidden rounded-full bg-slate-200"
+                    >
+                      <div
+                        className={`h-full origin-left bg-indigo-600 transition-transform duration-500 ease-out ${
+                          i <= step ? 'scale-x-100' : 'scale-x-0'
+                        }`}
+                      />
+                    </div>
+                  )}
                   <button
                     type="button"
                     onClick={() => setStep(i)}
@@ -91,7 +104,7 @@ function App() {
                     }`}
                   >
                     <span
-                      className={`grid size-6 place-items-center rounded-full text-xs ${
+                      className={`relative grid size-6 place-items-center rounded-full text-xs transition-colors duration-300 ${
                         i === step
                           ? 'bg-indigo-600 text-white'
                           : i < step
